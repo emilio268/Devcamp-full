@@ -1,32 +1,32 @@
 const express = require('express')
-const bootcampModel = require('../models/bootcampModel')
+const coursesModel = require('../models/coursesModel')
 const { default: mongoose } = require('mongoose')
 const router = express.Router()
 
-//definir rutas de bootcamps
+//definir rutas de courses
 //con el ruteador
 
-//Traer todos los bootcamps
+//Traer todos los courses
 router.get('/', async (req, res) => {
-    //Seleccionar todos los bootcamps
+    //Seleccionar todos los courses
     //en la colección
 
     try{
-        const bootcamps = 
-            await bootcampModel.find()
-        if(bootcamps.lenght === 0){
+        const courses = 
+            await coursesModel.find()
+        if(courses.lenght === 0){
             res.
             status(400). 
             json({
                 sucess: false,
-                msg: "no hay bootcamps en la collection"
+                msg: "no hay courses en la collection"
             })
         }else{
             res.
             status(200). 
             json({
                 sucess: true,
-                data: bootcamps
+                data: courses
             })
         }
     }catch(error){
@@ -44,28 +44,28 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
 
     try{
-        bootcampid = req.params.id
+        coursesid = req.params.id
 
-        if(!mongoose.Types.ObjectId.isValid(bootcampid)){
+        if(!mongoose.Types.ObjectId.isValid(coursesid)){
             res.status(400).json({
                 sucess: false,
                 msg: "el id no es valido"
             })
         }else{
-            selected_Bootcamp = await bootcampModel.
-                            findById(bootcampid)
+            selected_Courses = await coursesModel.
+                            findById(coursesid)
 
-        if(selected_Bootcamp){
+        if(selected_Courses){
             //se encontro el bootcamp
             res.status(200).json({
                 sucess: true,
-                results: selected_Bootcamp
+                results: selected_Courses
             })
         }else{
             //No se haya encontrado
             res.status(400).json({
                 sucess: false,
-                msg: `No se encontro el bootcamp ${bootcampid}`
+                msg: `No se encontro el bootcamp ${coursesid}`
             })
         }
         }
@@ -79,15 +79,22 @@ router.get('/:id', async (req, res) => {
     }
 })
 
-//Crear bootcamp
 router.post('/', async (req, res) => {
 
     try {
-        const newBootcamp = await bootcampModel.create(req.body)
+
+        if (!req.body.title) {
+            return res.status(400).json({
+                success: false,
+                msg: "El campo 'name' es obligatorio para crear un curso."
+            });
+        }
+        
+        const newCourses = await coursesModel.create(req.body)
 
     res.status(201).json({
         sucess:true,
-        results: newBootcamp                                                                                                          
+        results: newCourses                                                                                                          
     })
     } catch (error) {
         res.status(500).json({
@@ -103,28 +110,28 @@ router.post('/', async (req, res) => {
 router.put('/:id' , async(req, res) =>{
 
     try{
-        bootcampid = req.params.id
+        coursesid = req.params.id
 
-        if(!mongoose.Types.ObjectId.isValid(bootcampid)){
+        if(!mongoose.Types.ObjectId.isValid(coursesid)){
             res.status(400).json({
                 sucess: false,
                 msg: "el id no es valido"
             })
         }else{
-            selected_Bootcamp = await bootcampModel.
-                            findByIdAndUpdate(bootcampid, req.body, {new: true})
+            selected_Courses = await coursesModel.
+                            findByIdAndUpdate(coursesid, req.body, {new: true})
 
-        if(selected_Bootcamp){
+        if(selected_Courses){
             //se encontro el bootcamp
             res.status(200).json({
                 sucess: true,
-                results: selected_Bootcamp
+                results: selected_Courses
             })
         }else{
             //No se haya encontrado
             res.status(400).json({
                 sucess: false,
-                msg: `No se encontro el bootcamp ${bootcampid}`
+                msg: `No se encontro el bootcamp ${coursesid}`
             })
         }
         }
@@ -142,28 +149,28 @@ router.put('/:id' , async(req, res) =>{
 router.delete("/:id" , async(req , res) =>{
 
     try{
-        bootcampid = req.params.id
+        coursesid = req.params.id
 
-        if(!mongoose.Types.ObjectId.isValid(bootcampid)){
+        if(!mongoose.Types.ObjectId.isValid(coursesid)){
             res.status(400).json({
                 sucess: false,
                 msg: "el id no es valido"
             })
         }else{
-            selected_Bootcamp = await bootcampModel.
-                            findByIdAndDelete(bootcampid, req.body, {new: true})
+            selected_Courses = await coursesModel.
+                            findByIdAndDelete(coursesid, req.body, {new: true})
 
-        if(selected_Bootcamp){
+        if(selected_Courses){
             //se encontro el bootcamp
             res.status(200).json({
                 sucess: true,
-                results: selected_Bootcamp
+                results: selected_Courses
             })
         }else{
             //No se haya encontrado
             res.status(400).json({
                 sucess: false,
-                msg: `No se encontro el bootcamp ${bootcampid}`
+                msg: `No se encontro el bootcamp ${coursesid}`
             })
         }
         }
@@ -177,6 +184,7 @@ router.delete("/:id" , async(req , res) =>{
     }
 
 })
+
 
 
 module.exports = router

@@ -1,40 +1,39 @@
 const mongoose = require('mongoose')
 
-//definir el schema
-//plano general de todo bootcamp
+//definir el esquema
+//plano general d todo bootcamp a regustrar
 
 
 const bootcampSchema = new mongoose.Schema({
-    name: {
+    name:{
         type: String,
-        required: [true, "Nombre requerido"],
-        unique: [true, "Nombre repetido"] 
-    },
-    phone: {
+        required : [true, "nombre requerido"],
+        unique :[true, "nombre repetido"],
+    } ,
+    phone:{
         type: Number,
-        required: [true, "Telefono requerido"],
-        maxlenght: [10, "Telefono muy largo"]
-    },
-    address: {
+        required : [true, "telefono requerido"],
+        max: [9999999999, "telefono muy largo"],
+    } ,
+    address:{
         type: String,
         required: [true, "Dirección requerido"],
-        maxlenght: [50, "Dirección muy larga"],
-        minlenght: [10, "Dirección muy corta"]
+        maxlength: [20, "direccion muy larga"],
+        minlength: [10, "direccion muy corta "],
     },
-    topics: {
+    topics:{
         type: [String],
-        enum: ["AI" ,
-                "Backend" , 
-                "Frontend" ,
-                "Devops"]
-
+        enum: [
+                "AI",
+                "Backend",
+                "Frontend",
+                "Devops"
+            ]
     },
     createdAt: Date
-    
+
 })
 
-//exportar el modelo
-const bootcampModel = mongoose
-                        .model("Bootcamp" , bootcampSchema)
+const bootcampModel = mongoose.model("bootcamp", bootcampSchema)
 
 module.exports = bootcampModel
