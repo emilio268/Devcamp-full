@@ -7,6 +7,7 @@ const conectarBD = require("./config/db")
 
 //dependencias de turas
 const bootcampsRoutes = require('./routes/bootcampRoutes')
+const userRoutes = require('./routes/userRoutes')
 const coursesRoutes = require('./routes/coursesRoutes')
 
 //configurar dotenv
@@ -29,6 +30,7 @@ app.use(express.json())
 //establecer rutas de proyectos
 app.use('/api/v1/bootcamps', bootcampsRoutes)
 app.use('/api/v1/courses', coursesRoutes)
+app.use('/api/v1/auth', userRoutes)
 
 //crear el servidor de 
 //aplicaciones express
